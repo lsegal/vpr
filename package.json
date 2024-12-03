@@ -1,0 +1,63 @@
+{
+  "name": "vpr",
+  "description": "A (versioned) package release tool",
+  "version": "1.1.2",
+  "author": "Loren Segal",
+  "license": "MIT",
+  "repository": "lsegal/vpr",
+  "homepage": "https://github.com/lsegal/vpr",
+  "bugs": "https://github.com/lsegal/vpr/issues",
+  "main": "./dist/index.js",
+  "type": "module",
+  "bin": {
+    "vpr": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "dependencies": {
+    "adm-zip": "^0.5.16",
+    "cli-color": "^2.0.4",
+    "commander": "^12.1.0",
+    "debug": "^4.3.7",
+    "execa": "^9.5.1",
+    "inquirer": "^12.1.0",
+    "ora": "^8.1.1",
+    "recursive-copy": "^2.0.14"
+  },
+  "devDependencies": {
+    "@types/adm-zip": "^0.5.7",
+    "@types/cli-color": "^2.0.6",
+    "@types/debug": "^4.1.12",
+    "@types/node": "^22",
+    "cross-env": "^7.0.3",
+    "eslint": "^9",
+    "tsup": "^8.3.5",
+    "tsx": "^4",
+    "typescript": "^5",
+    "typescript-eslint": "^8.16.0",
+    "vitest": "^2.1.6"
+  },
+  "resolutions": {
+    "jackspeak": "2.1.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --sourcemap inline --format esm --dts --clean",
+    "lint": "eslint .",
+    "posttest": "yarn lint",
+    "test": "vitest --run",
+    "test:watch": "vitest",
+    "package": "tsx src/index.ts run -f yarn package:stage",
+    "package:stage": "yarn && tsx scripts/package.ts",
+    "release": "tsx src/index.ts run -c yarn release:stage && git pull",
+    "release:stage": "yarn && tsx scripts/release.ts",
+    "release:major": "cross-env VERSION=major yarn package && yarn release",
+    "release:minor": "cross-env VERSION=minor yarn package && yarn release",
+    "release:patch": "cross-env VERSION=patch yarn package && yarn release"
+  },
+  "types": "dist/index.d.ts"
+}

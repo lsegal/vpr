@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "declaration": true,
+    "module": "nodenext",
+    "outDir": "dist",
+    "rootDir": ".",
+    "strict": true,
+    "target": "es2022",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "paths": {
+      "~/*": ["./src/*"]
+    }
+  },
+  "exclude": ["dist", "node_modules"]
+}
