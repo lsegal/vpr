@@ -25,6 +25,7 @@ export function addReleaseCommitCommand(program: Command): Command {
     .option("--no-tag", "Do not tag version")
     .option("--dry-run", "Print the message without performing the commit")
     .argument("<version>", "the release version")
+    .addHelpText("after", `Examples:\n  $ vpr release-commit 1.0.0`)
     .action(run);
 }
 

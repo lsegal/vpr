@@ -23,6 +23,26 @@ const copy = recursiveCopy as unknown as (
   options?: any
 ) => Promise<void>;
 
+const exampleHelp = `Examples:
+  Prepare a release (first stage)
+  $ vpr run make build git-tag
+
+  Release an prepared archive staged to rel-archive.zip
+  $ vpr run -c sh scripts/release.sh
+
+  Run a command on a prepared archive with a different file name
+  $ vpr run -i some-input.zip -o some-output.zip make test
+
+  Use multiple staged archives as initial state
+  $ vpr run -i macos.zip -i linux.zip -i win.zip make release
+
+  Run an intermediary stage command prior to release
+  $ vpr run --continue --write make test
+
+  Run an intermediary stage command prior to release (shorthand)
+  $ vpr run -cw make test
+`;
+
 const OUTPUT_ARCHIVE = "rel-archive.zip";
 
 const log = new Logger("vpr:run");
@@ -89,6 +109,7 @@ export function addRunCommand(program: Command): Command {
     )
     .option("--no-cleanup", "Do not cleanup temporary directory")
     .argument("<command...>", "Command to run")
+    .addHelpText("after", exampleHelp)
     .action(run);
 }
 
