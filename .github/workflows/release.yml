@@ -17,12 +17,20 @@ on:
         required: false
         type: string
 
+permissions:
+  contents: write
+
 jobs:
   release:
     runs-on: ubuntu-latest
     env:
       VERSION: ${{ inputs.level == 'version' && inputs.version || inputs.level }}
     steps:
+      - name: Setup git & npm credentials
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
