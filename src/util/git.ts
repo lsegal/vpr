@@ -1,5 +1,6 @@
 import { $ } from "execa";
 import { existsSync } from "node:fs";
+import { join } from "node:path";
 
 const GITIGNORE = ".gitignore";
 const RELIGNORE = ".relignore";
@@ -15,15 +16,21 @@ export async function trackedFiles(): Promise<string[]> {
     .map((line) => line.split(" ").at(-1) ?? "");
 }
 
-export async function untrackedFiles(): Promise<string[]> {
+export async function untrackedFiles(
+  ignorePatterns: string[] = []
+): Promise<string[]> {
+  const repoDir = await repositoryDirectory();
+  const gitignore = join(repoDir, GITIGNORE);
+  const relignore = join(repoDir, RELIGNORE);
   const lsFiles = await $(
     "git",
     [
       "ls-files",
       "--others",
       "--directory",
-      ...(existsSync(GITIGNORE) ? ["-X", GITIGNORE] : []),
-      ...(existsSync(RELIGNORE) ? ["-X", RELIGNORE] : []),
+      ...(existsSync(gitignore) ? ["-X", gitignore] : []),
+      ...(existsSync(relignore) ? ["-X", relignore] : []),
+      ...ignorePatterns.flatMap((pattern) => ["-x", pattern]),
     ],
     { lines: true }
   );

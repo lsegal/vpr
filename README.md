@@ -47,8 +47,11 @@ that build artifacts against multiple platforms might use **vpr** to stage the r
 Generally you would run `npx vpr run <prepare_command>` like:
 
 ```sh
-npx vpr run make build git-tag
+npx vpr run --include-artifact build/release/ make build git-tag
 ```
+
+> [!TIP]
+> You can use `--overwrite` (alias: `-f`) to avoid the confirmation prompt when overwriting an existing archive.
 
 The above command will:
 
@@ -57,10 +60,13 @@ The above command will:
 3. Run `make build git-tag` in the temporary directory, which in this example will build your artifacts and tag the
    repository with the new version.
 4. Archive the staged changes into a zip archive (`rel-archive.zip`) in the original working directory which includes
-   the git repository and any generated artifacts.
+   the git repository and **any generated artifacts**.
 
-> [!TIP]
-> You can use `--overwrite` (alias: `-f`) to avoid the confirmation prompt when overwriting an existing archive.
+> [!NOTE]
+> If your artifacts are part of the `.gitignore` (a very common scenario), they will not be included in the staged
+> archive. This is why we used `--include-artifact` to force their inclusion. You can also use the `.relignore` file to
+> specify this behavior for the entire project, see [the section on `.relignore`](#ignoring-and-un-ignoring-artifacts-from-the-output-archive-relignore).
+> for more information.
 
 This archive can be inspected manually to verify the contents at any time. The modifications to the repository and any
 generated artifacts will live only in the staged package archive (`rel-archive.zip`) and thus will have no effect on
@@ -89,7 +95,7 @@ The above command will:
 
 ## 🤔 Why **vpr**?
 
-_The problem is simple_: most modern release processes rely heavily on GitHub Actions, or other CI systems to manage
+_The problem is simple_: most modern release processes rely heavily on GitHub Actions or other CI systems to manage
 the actual release. While this might be a very hands-off approach and wonderful when it works, it can also be nearly
 impossible to test and debug locally, causing scenarios where a release might be completely broken and blocked due to CI
 issues that require multiple commits to fix and test... _and then fix and test because the job failed again_,

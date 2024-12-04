@@ -30,7 +30,8 @@ const log = new Logger("vpr:run");
 type RunOptions = {
   allowDirty: boolean;
   initialArchive: string[];
-  ignoreArtifact: string[];
+  excludeArtifact: string[];
+  includeArtifact: string[];
   outputArchive: string;
   overwrite: boolean;
   write: boolean;
@@ -75,8 +76,14 @@ export function addRunCommand(program: Command): Command {
     .option("-f, --overwrite", "Overwrite existing output archive")
     .option("-w, --write", "Write output archive to default location")
     .option(
-      "--ignore-artifact <pattern>",
-      "Ignore an extra pattern from the output archive (in addition to .relignore)",
+      "--exclude-artifact <pattern>",
+      "Exclude an extra pattern from the output archive (in addition to .relignore)",
+      collect,
+      []
+    )
+    .option(
+      "--include-artifact <pattern>",
+      "Include an extra pattern in the output archive (even if .gitignored)",
       collect,
       []
     )
@@ -228,9 +235,15 @@ class RunCommand {
     });
   }
 
+  private get artifactIgnorePatterns() {
+    return this.opts.excludeArtifact.concat(
+      this.opts.includeArtifact.map((pattern) => `!${pattern}`)
+    );
+  }
+
   private async createArchive() {
     const tracked = await trackedFiles();
-    const untracked = await untrackedFiles();
+    const untracked = await untrackedFiles(this.artifactIgnorePatterns);
     const dirty = tracked.length > 0;
 
     if (!this.initialDirty && dirty) {
@@ -241,7 +254,7 @@ class RunCommand {
     const entries = [
       ...(existsSync(join(this.stageDir, ".git")) ? [".git"] : []),
       ...untracked,
-    ].filter((entry) => !this.opts.ignoreArtifact.includes(entry));
+    ];
     if (entries.length === 0) {
       log.warn("No files to archive");
       return;
