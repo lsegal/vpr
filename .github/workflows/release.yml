@@ -25,6 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       VERSION: ${{ inputs.level == 'version' && inputs.version || inputs.level }}
+      GH_TOKEN: ${{ github.token }}
     steps:
       - name: Setup git & npm credentials
         run: |
