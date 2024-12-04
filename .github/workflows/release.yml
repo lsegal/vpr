@@ -6,6 +6,7 @@ on:
         description: Release level
         required: true
         type: choice
+        default: patch
         options:
           - major
           - minor
