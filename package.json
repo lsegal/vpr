@@ -1,7 +1,7 @@
 {
   "name": "vpr",
   "description": "A (versioned) package release tool",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "author": "Loren Segal",
   "license": "MIT",
   "repository": "lsegal/vpr",
