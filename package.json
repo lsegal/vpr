@@ -40,7 +40,8 @@
     "vitest": "^2.1.6"
   },
   "resolutions": {
-    "jackspeak": "2.1.1"
+    "jackspeak": "2.1.1",
+    "esbuild": "0.25.0"
   },
   "engines": {
     "node": ">=18.0.0"
