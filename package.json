@@ -46,19 +46,20 @@
   "engines": {
     "node": ">=18.0.0"
   },
+  "packageManager": "pnpm@10.17.1",
   "scripts": {
     "build": "tsup src/index.ts --sourcemap inline --format esm --dts --clean",
     "lint": "eslint .",
-    "posttest": "yarn lint",
+    "posttest": "pnpm lint",
     "test": "vitest --run",
     "test:watch": "vitest",
-    "package": "tsx src/index.ts run -f yarn package:stage",
-    "package:stage": "yarn && tsx scripts/package.ts",
-    "release": "tsx src/index.ts run -c yarn release:stage && git pull",
-    "release:stage": "yarn && tsx scripts/release.ts",
-    "release:major": "cross-env VERSION=major yarn package && yarn release",
-    "release:minor": "cross-env VERSION=minor yarn package && yarn release",
-    "release:patch": "cross-env VERSION=patch yarn package && yarn release"
+    "package": "tsx src/index.ts run -f pnpm package:stage",
+    "package:stage": "pnpm install && tsx scripts/package.ts",
+    "release": "tsx src/index.ts run -c pnpm release:stage && git pull",
+    "release:stage": "pnpm install && tsx scripts/release.ts",
+    "release:major": "cross-env VERSION=major pnpm package && pnpm release",
+    "release:minor": "cross-env VERSION=minor pnpm package && pnpm release",
+    "release:patch": "cross-env VERSION=patch pnpm package && pnpm release"
   },
   "types": "dist/index.d.ts"
 }

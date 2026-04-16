@@ -10,6 +10,6 @@ const pkgData = await readFile("package.json");
 const pkg = JSON.parse(pkgData.toString()) as { version: string };
 const ver = pkg.version;
 await $(opts)`git add . && git status`;
-await $(opts)`yarn test && yarn build && yarn pack`;
+await $(opts)`pnpm test && pnpm build && pnpm pack`;
 await $(opts)`node dist/index.js release-commit ${ver}`;
 await $(opts)`git --no-pager show`;
