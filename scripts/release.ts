@@ -6,7 +6,7 @@ const pkg = JSON.parse(pkgData.toString()) as {
   name: string;
   version: string;
 };
-const pkgfile = `${pkg.name}-v${pkg.version}.tgz`;
+const pkgfile = `${pkg.name}-${pkg.version}.tgz`;
 
 const opts = { shell: true, stderr: process.stderr, stdout: process.stdout };
 await $(opts)`pnpm publish ${pkgfile}`;
