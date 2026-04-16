@@ -11,9 +11,9 @@ import { cwd } from "node:process";
 import { inspect } from "node:util";
 import { default as recursiveCopy } from "recursive-copy";
 import {
-    repositoryDirectory,
-    trackedFiles,
-    untrackedFiles,
+  repositoryDirectory,
+  trackedFiles,
+  untrackedFiles,
 } from "~/util/git.js";
 import { Logger } from "~/util/log.js";
 import { spinner } from "~/util/ui.js";

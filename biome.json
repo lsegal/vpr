@@ -8,5 +8,8 @@
         "noExplicitAny": "off"
       }
     }
+  },
+  "formatter": {
+    "indentStyle": "space"
   }
 }
