@@ -1,5 +1,5 @@
-import { $ } from "execa";
 import { readFile } from "node:fs/promises";
+import { $ } from "execa";
 
 const pkgData = await readFile("package.json");
 const pkg = JSON.parse(pkgData.toString()) as {
