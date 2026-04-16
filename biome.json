@@ -1,12 +1,12 @@
 {
-	"files": {
-		"includes": ["**", "!**/dist"]
-	},
-	"linter": {
-		"rules": {
-			"suspicious": {
-				"noExplicitAny": "off"
-			}
-		}
-	}
+  "files": {
+    "includes": ["**", "!**/dist"]
+  },
+  "linter": {
+    "rules": {
+      "suspicious": {
+        "noExplicitAny": "off"
+      }
+    }
+  }
 }
