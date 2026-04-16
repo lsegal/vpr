@@ -9,6 +9,6 @@ const pkg = JSON.parse(pkgData.toString()) as {
 const pkgfile = `${pkg.name}-v${pkg.version}.tgz`;
 
 const opts = { shell: true, stderr: process.stderr, stdout: process.stdout };
-await $(opts)`pnpm publish --no-git-checks ${pkgfile}`;
+await $(opts)`pnpm publish ${pkgfile}`;
 await $(opts)`git push origin main v${pkg.version}`;
 await $(opts)`gh release create --generate-notes v${pkg.version} ${pkgfile}`;
