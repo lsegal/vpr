@@ -28,20 +28,17 @@ jobs:
       VERSION: ${{ inputs.level == 'version' && inputs.version || inputs.level }}
       GH_TOKEN: ${{ github.token }}
     steps:
-      - name: Setup git & npm credentials
+      - name: Setup git
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
       - uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: "pnpm"
           registry-url: "https://registry.npmjs.org"
-      - uses: pnpm/action-setup@v4
-        with:
-          run_install: false
-      - run: pnpm install --frozen-lockfile
       - run: pnpm package
       - run: pnpm release
