@@ -48,7 +48,7 @@
 	"packageManager": "pnpm@10.17.1",
 	"scripts": {
 		"build": "tsup src/index.ts --sourcemap inline --format esm --dts --clean",
-		"lint": "biome lint . --diagnostic-level=error",
+		"lint": "biome lint . --diagnostic-level=error && tsc",
 		"posttest": "pnpm lint",
 		"test": "vitest --run",
 		"test:watch": "vitest",
