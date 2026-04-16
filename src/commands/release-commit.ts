@@ -40,16 +40,16 @@ async function collectIssues(issueMatch: string): Promise<string[]> {
       .toString()
       .trim();
   }
-  const result = await $`git log --all --format=%B ${lastTag}..@`;
+  const result = await $`git log --format=%B ${lastTag}..@`;
   const matches = result.stdout
     .toString()
     .matchAll(new RegExp(issueMatch, "gi"));
 
-  const list = [];
+  const list = new Set<string>();
   for (const match of matches) {
-    list.push(match[1] || match[0]);
+    list.add(match[1] || match[0]);
   }
-  return list;
+  return [...list];
 }
 
 class ReleaseCommitCommand {
